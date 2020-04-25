@@ -96,7 +96,7 @@
              <string/>
             </property>
             <property name="text">
-             <string notr="true">11</string>
+             <string notr="true">500</string>
             </property>
             <property name="maxLength">
              <number>10</number>

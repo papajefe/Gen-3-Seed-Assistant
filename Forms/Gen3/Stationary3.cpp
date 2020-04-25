@@ -149,21 +149,26 @@ void Stationary3::generate()
 {
     generatorModel->clearModel();
     QVector<u32> seeds;
+    QString userInput;
+    userInput.clear();
     seeds.clear();
+    userInput = ui->textUserSeed->toPlainText();
     QStringList userSeeds = ui->textUserSeed->toPlainText().split("\n");
-    if (userSeeds.size() > 1)
-       {
-        for (int i = 0; i < userSeeds.size(); i++)
-                {
-                    seeds.append(userSeeds.at(i).toUInt(nullptr, 16));
-                }
-      }
+    if (userInput.isEmpty())
+    {
+        for (u32 i = 0; i < 65536; i++)
+        {
+            seeds.append(i);
+        }
+
+    }
     else  {
-            for (u32 i = 0; i < 65536; i++)
-            {
-                seeds.append(i);
-            }
-          }
+        for (int i = 0; i < userSeeds.size(); i++)
+        {
+            seeds.append(userSeeds.at(i).toUInt(nullptr, 16));
+        }
+
+    }
     for (int i = 0; i < seeds.size(); i++){
     u32 seed = seeds.at(i);
     u32 initialFrame = ui->textBoxGeneratorInitialFrame->getUInt();
