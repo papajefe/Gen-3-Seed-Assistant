@@ -281,7 +281,6 @@ void MainWindow::openStationary3()
     if (!stationary3)
     {
         stationary3 = new Stationary3();
-        connect(stationary3, &Stationary3::alertProfiles, this, &MainWindow::updateProfiles);
     }
     stationary3->show();
     stationary3->raise();

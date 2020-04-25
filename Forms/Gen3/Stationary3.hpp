@@ -27,7 +27,6 @@
 
 class Frame;
 class StationaryGeneratorModel3;
-class StationarySearcherModel3;
 class PersonalInfo;
 
 namespace Ui
@@ -39,7 +38,7 @@ class Stationary3 : public QWidget
 {
     Q_OBJECT
 signals:
-    void alertProfiles(int);
+
 
 
 
@@ -47,33 +46,21 @@ signals:
 public:
     explicit Stationary3(QWidget *parent = nullptr);
     ~Stationary3() override;
-    void updateProfiles();
 
 private:
     Ui::Stationary3 *ui;
     QVector<PersonalInfo> personalInfo;
     StationaryGeneratorModel3 *generatorModel = nullptr;
-    StationarySearcherModel3 *searcherModel = nullptr;
-    QVector<Profile3> profiles;
-    Profile3 currentProfile;
     QMenu *generatorMenu = nullptr;
-    QMenu *searcherMenu = nullptr;
     PersonalInfo getPersonalInfo(const PersonalInfo &base);
     void setupModels();
 
 private slots:
-    void updateProgress(const QVector<Frame> &frames, int progress);
     void displayIVs(QStringList &label, const QVector<u8> &ivs);
     void findIVs();
     void calculatestats();
     void generate();
-    void search();
-    void profilesIndexChanged(int index);
     void tableViewGeneratorContextMenu(QPoint pos);
-    void tableViewSearcherContextMenu(QPoint pos);
-    void seedToTime();
-    void copySeedToClipboard();
-    void profileManager();
     void pokemonIndexChanged(int index);
     void altformIndexChanged(int index);
     void generationIndexChanged(int index);

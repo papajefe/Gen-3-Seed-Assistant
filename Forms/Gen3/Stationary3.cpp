@@ -125,8 +125,6 @@ void Stationary3::generate()
     for (int i = 0; i < seeds.size(); i++){
     u32 seed = seeds.at(i);
     u32 initialFrame = ui->textBoxGeneratorInitialFrame->getUInt();
-    u16 tid = currentProfile.getTID();
-    u16 sid = currentProfile.getSID();
     u8 genderRatio = ui->filterGenerator->getGenderRatio();
     auto method = static_cast<Method>(ui->comboBoxGeneratorMethod->getCurrentInt());
     u32 offset = 0;
@@ -139,7 +137,7 @@ void Stationary3::generate()
                        ui->filterGenerator->getDisableFilters(), ui->filterGenerator->getMinIVs(), ui->filterGenerator->getMaxIVs(),
                        ui->filterGenerator->getNatures(), ui->filterGenerator->getHiddenPowers(), {});
 
-    StationaryGenerator3 generator(initialFrame-10, 21, tid, sid, genderRatio, method, filter);
+    StationaryGenerator3 generator(initialFrame-10, 21, 12345, 64321, genderRatio, method, filter);
     generator.setOffset(offset);
     auto frames = generator.generate(seed);
     generatorModel->addItems(frames);
