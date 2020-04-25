@@ -1,0 +1,12 @@
+---
+BasedOnStyle: WebKit
+
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: None
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Allman
+BreakConstructorInitializers: AfterColon
+ColumnLimit: 140
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+NamespaceIndentation: All
+PointerAlignment: Right

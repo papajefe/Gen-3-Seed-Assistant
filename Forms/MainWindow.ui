@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>460</width>
+    <height>390</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>460</width>
+    <height>390</height>
+   </size>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../pokefinder.ico</normaloff>../pokefinder.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBoxGen4">
+      <property name="title">
+       <string>Gen 4</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButtonStationary4">
+         <property name="text">
+          <string>Stationary</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButtonWild4">
+         <property name="text">
+          <string>Wild</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButtonEgg4">
+         <property name="text">
+          <string>Egg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pushButtonIDs4">
+         <property name="text">
+          <string>TID/SID</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBoxGen3">
+      <property name="title">
+       <string>Gen 3</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButtonStationary3">
+         <property name="text">
+          <string>FRLG Seed Checker</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButtonWild3">
+         <property name="text">
+          <string>Wild</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pushButtonGameCube">
+         <property name="text">
+          <string>GameCube</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pushButtonEgg3">
+         <property name="text">
+          <string>Egg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="pushButtonIDs3">
+         <property name="text">
+          <string>TID/SID</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>460</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionEncounterLookup"/>
+    <addaction name="actionIVCalculator"/>
+    <addaction name="actionResearcher"/>
+   </widget>
+   <widget class="QMenu" name="menuGen3Tools">
+    <property name="title">
+     <string>Gen 3 Tools</string>
+    </property>
+    <widget class="QMenu" name="menuGameCube">
+     <property name="title">
+      <string>GameCube</string>
+     </property>
+     <addaction name="actionGameCubeRTC"/>
+     <addaction name="actionGameCubeSeedFinder"/>
+     <addaction name="actionJirachiPattern"/>
+     <addaction name="actionPokeSpot"/>
+    </widget>
+    <addaction name="menuGameCube"/>
+    <addaction name="actionIVtoPID3"/>
+    <addaction name="actionPIDtoIV"/>
+    <addaction name="actionSeedtoTime3"/>
+    <addaction name="actionSpindaPainter"/>
+   </widget>
+   <widget class="QMenu" name="menuGen4Tools">
+    <property name="title">
+     <string>Gen 4 Tools</string>
+    </property>
+    <addaction name="actionIVtoPID4"/>
+    <addaction name="actionSeedtoTime4"/>
+    <addaction name="actionSIDfromChainedShiny"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionGerman"/>
+     <addaction name="actionEnglish"/>
+     <addaction name="actionSpanish"/>
+     <addaction name="actionFrench"/>
+     <addaction name="actionItalian"/>
+     <addaction name="actionJapanese"/>
+     <addaction name="actionKorean"/>
+     <addaction name="actionChinese"/>
+    </widget>
+    <widget class="QMenu" name="menuStyle">
+     <property name="title">
+      <string>Style</string>
+     </property>
+     <addaction name="actionDark"/>
+     <addaction name="actionLight"/>
+    </widget>
+    <addaction name="menuLanguage"/>
+    <addaction name="menuStyle"/>
+   </widget>
+   <addaction name="menuGen3Tools"/>
+   <addaction name="menuGen4Tools"/>
+   <addaction name="menuSettings"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <action name="actionResearcher">
+   <property name="text">
+    <string>Researcher</string>
+   </property>
+  </action>
+  <action name="actionSeedtoTime3">
+   <property name="text">
+    <string>Seed to Time</string>
+   </property>
+  </action>
+  <action name="actionJirachiPattern">
+   <property name="text">
+    <string>Jirachi Pattern</string>
+   </property>
+  </action>
+  <action name="actionPokeSpot">
+   <property name="text">
+    <string>PokeSpot</string>
+   </property>
+  </action>
+  <action name="actionIVtoPID3">
+   <property name="text">
+    <string>IV to PID</string>
+   </property>
+  </action>
+  <action name="actionGameCubeRTC">
+   <property name="text">
+    <string>GameCube RTC</string>
+   </property>
+  </action>
+  <action name="actionPIDtoIV">
+   <property name="text">
+    <string>PID to IV</string>
+   </property>
+  </action>
+  <action name="actionSeedtoTime4">
+   <property name="text">
+    <string>Seed to Time</string>
+   </property>
+  </action>
+  <action name="actionIVtoPID4">
+   <property name="text">
+    <string>IV to PID</string>
+   </property>
+  </action>
+  <action name="actionDark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionLight">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Light</string>
+   </property>
+  </action>
+  <action name="actionGerman">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>German</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionSpanish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Spanish</string>
+   </property>
+  </action>
+  <action name="actionFrench">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>French</string>
+   </property>
+  </action>
+  <action name="actionItalian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Italian</string>
+   </property>
+  </action>
+  <action name="actionJapanese">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Japanese</string>
+   </property>
+  </action>
+  <action name="actionKorean">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Korean</string>
+   </property>
+  </action>
+  <action name="actionChinese">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Chinese</string>
+   </property>
+  </action>
+  <action name="actionSIDfromChainedShiny">
+   <property name="text">
+    <string>SID from Chained Shiny</string>
+   </property>
+  </action>
+  <action name="actionIVCalculator">
+   <property name="text">
+    <string>IV Calculator</string>
+   </property>
+  </action>
+  <action name="actionSpindaPainter">
+   <property name="text">
+    <string>Spinda Painter</string>
+   </property>
+  </action>
+  <action name="actionEncounterLookup">
+   <property name="text">
+    <string>Encounter Lookup</string>
+   </property>
+  </action>
+  <action name="actionGameCubeSeedFinder">
+   <property name="text">
+    <string>GameCube Seed Finder</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
