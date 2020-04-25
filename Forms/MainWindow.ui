@@ -68,7 +68,7 @@
        <item row="0" column="0">
         <widget class="QPushButton" name="pushButtonStationary3">
          <property name="text">
-          <string>FRLG Seed Checker</string>
+          <string>Stationary</string>
          </property>
         </widget>
        </item>
@@ -140,6 +140,7 @@
     <addaction name="actionPIDtoIV"/>
     <addaction name="actionSeedtoTime3"/>
     <addaction name="actionSpindaPainter"/>
+    <addaction name="actionFRLGSeed"/>
    </widget>
    <widget class="QMenu" name="menuGen4Tools">
     <property name="title">
@@ -329,6 +330,11 @@
   <action name="actionGameCubeSeedFinder">
    <property name="text">
     <string>GameCube Seed Finder</string>
+   </property>
+  </action>
+  <action name="actionFRLGSeed">
+   <property name="text">
+    <string>FRLG Seed Searcher</string>
    </property>
   </action>
  </widget>

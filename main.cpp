@@ -19,6 +19,7 @@
 
 #include <Core/Util/Translator.hpp>
 #include <Forms/MainWindow.hpp>
+#include <Forms/Gen3/Stationary3.hpp>
 #include <QApplication>
 #include <QFile>
 #include <QSettings>
@@ -58,8 +59,7 @@ int main(int argc, char *argv[])
     {
         QApplication::installTranslator(&translator);
     }
-
-    MainWindow w;
+    Stationary3 w;
     w.show();
     w.raise();
 

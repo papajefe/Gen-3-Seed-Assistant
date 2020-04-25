@@ -126,6 +126,7 @@ void MainWindow::setupModels()
     }
 
     connect(ui->pushButtonStationary3, &QPushButton::clicked, this, &MainWindow::openStationary3);
+    connect(ui->actionFRLGSeed, &QAction::triggered, this, &MainWindow::openStationary3);
     connect(ui->pushButtonWild3, &QPushButton::clicked, this, &MainWindow::openWild3);
     connect(ui->pushButtonGameCube, &QPushButton::clicked, this, &MainWindow::openGameCube);
     connect(ui->pushButtonEgg3, &QPushButton::clicked, this, &MainWindow::openEgg3);
@@ -236,7 +237,7 @@ void MainWindow::updateProfiles(int num)
     {
         if (stationary3)
         {
-            stationary3->updateProfiles();
+//            stationary3->updateProfiles();
         }
         if (wild3)
         {

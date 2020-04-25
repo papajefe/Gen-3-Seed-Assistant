@@ -27,11 +27,7 @@
 #include <Core/Parents/PersonalInfo.hpp>
 #include <Core/Util/IVChecker.hpp>
 #include <Core/Gen3/Generators/StationaryGenerator3.hpp>
-#include <Core/Gen3/ProfileLoader3.hpp>
-#include <Core/Gen3/Searchers/StationarySearcher3.hpp>
 #include <Core/Util/Translator.hpp>
-#include <Forms/Gen3/Profile/ProfileManager3.hpp>
-#include <Forms/Gen3/Tools/SeedTime3.hpp>
 #include <Models/Gen3/StationaryModel3.hpp>
 #include <QClipboard>
 #include <QCompleter>
@@ -43,11 +39,8 @@
 Stationary3::Stationary3(QWidget *parent) : QWidget(parent), ui(new Ui::Stationary3)
 {
     ui->setupUi(this);
-    setAttribute(Qt::WA_QuitOnClose, false);
-
-    updateProfiles();
+    setAttribute(Qt::WA_QuitOnClose, true);
     setupModels();
-
     qRegisterMetaType<QVector<Frame>>("QVector<Frame>");
 }
 
@@ -55,80 +48,37 @@ Stationary3::~Stationary3()
 {
     QSettings setting;
     setting.beginGroup("stationary3");
-    setting.setValue("profile", ui->comboBoxProfiles->currentIndex());
     setting.setValue("geometry", this->saveGeometry());
     setting.endGroup();
 
     delete ui;
 }
 
-void Stationary3::updateProfiles()
-{
-    connect(ui->comboBoxProfiles, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::profilesIndexChanged);
-
-    profiles = { Profile3() };
-    for (const auto &profile : ProfileLoader3::getProfiles())
-    {
-        if (!(profile.getVersion() & Game::GC))
-        {
-            profiles.append(profile);
-        }
-    }
-
-    ui->comboBoxProfiles->clear();
-    for (const auto &profile : profiles)
-    {
-        ui->comboBoxProfiles->addItem(profile.getName());
-    }
-
-    QSettings setting;
-    int val = setting.value("stationary3/profile", 0).toInt();
-    if (val < ui->comboBoxProfiles->count())
-    {
-        ui->comboBoxProfiles->setCurrentIndex(val);
-    }
-}
 
 void Stationary3::setupModels()
 {
     generatorModel = new StationaryGeneratorModel3(ui->tableViewGenerator);
-    searcherModel = new StationarySearcherModel3(ui->tableViewSearcher);
     generatorMenu = new QMenu(ui->tableViewGenerator);
-    searcherMenu = new QMenu(ui->tableViewSearcher);
     generationIndexChanged(0);
     ui->comboBoxPokemon->setEditable(true);
     ui->comboBoxPokemon->completer()->setCompletionMode(QCompleter::PopupCompletion);
     connect(ui->comboBoxPokemon, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::pokemonIndexChanged);
     connect(ui->comboBoxAltForm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::altformIndexChanged);
     ui->tableViewGenerator->setModel(generatorModel);
-    ui->tableViewSearcher->setModel(searcherModel);
     ui->textBoxGeneratorInitialFrame->setValues(InputType::Frame32Bit);
     ui->comboBoxGeneratorMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4 });
-    ui->comboBoxSearcherMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4 });
     ui->comboBoxNatures->addItems(Translator::getNatures());
     ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::Ability | Controls::UseDelay | Controls::DisableFilter | Controls::HiddenPowers | Controls::Shiny);
-    ui->filterSearcher->disableControls(Controls::EncounterSlots | Controls::UseDelay | Controls::DisableFilter);
-
+    ui->comboBoxAltForm->setVisible(false);
+    ui->labelAltForm->setVisible(false);
     QAction *outputTXTGenerator = generatorMenu->addAction(tr("Output Results to TXT"));
     QAction *outputCSVGenerator = generatorMenu->addAction(tr("Output Results to CSV"));
     connect(outputTXTGenerator, &QAction::triggered, this, [=] { ui->tableViewGenerator->outputModel(); });
     connect(outputCSVGenerator, &QAction::triggered, this, [=] { ui->tableViewGenerator->outputModel(true); });
 
-    QAction *copySeedToClipboard = searcherMenu->addAction(tr("Copy Seed to Clipboard"));
-    QAction *seedToTime = searcherMenu->addAction(tr("Generate times for seed"));
-    QAction *outputTXTSearcher = searcherMenu->addAction(tr("Output Results to TXT"));
-    QAction *outputCSVSearcher = searcherMenu->addAction(tr("Output Results to CSV"));
-    connect(copySeedToClipboard, &QAction::triggered, this, &Stationary3::copySeedToClipboard);
-    connect(seedToTime, &QAction::triggered, this, &Stationary3::seedToTime);
-    connect(outputTXTSearcher, &QAction::triggered, this, [=] { ui->tableViewSearcher->outputModel(); });
-    connect(outputCSVSearcher, &QAction::triggered, this, [=] { ui->tableViewSearcher->outputModel(true); });
-
     connect(ui->pushButtonGenerate, &QPushButton::clicked, this, &Stationary3::generate);
-    connect(ui->pushButtonSearch, &QPushButton::clicked, this, &Stationary3::search);
     connect(ui->CalculateIVButton, &QPushButton::clicked, this, &Stationary3::calculatestats);
     connect(ui->tableViewGenerator, &QTableView::customContextMenuRequested, this, &Stationary3::tableViewGeneratorContextMenu);
-    connect(ui->tableViewSearcher, &QTableView::customContextMenuRequested, this, &Stationary3::tableViewSearcherContextMenu);
-    connect(ui->pushButtonProfileManager, &QPushButton::clicked, this, &Stationary3::profileManager);
 
     QSettings setting;
     if (setting.contains("stationary3/geometry"))
@@ -136,13 +86,16 @@ void Stationary3::setupModels()
         this->restoreGeometry(setting.value("stationary3/geometry").toByteArray());
     }
 }
-
-void Stationary3::updateProgress(const QVector<Frame> &frames, int progress)
+void Stationary3::altformIndexChanged(int index)
 {
-    searcherModel->addItems(frames);
-    ui->progressBar->setValue(progress);
-}
+    if (index >= 0)
+    {
+        u16 specie = static_cast<u16>(ui->comboBoxPokemon->currentIndex());
 
+        auto base = personalInfo.at(specie + 1);
+
+    }
+}
 
 
 void Stationary3::generate()
@@ -194,63 +147,7 @@ void Stationary3::generate()
 }
 
 
-void Stationary3::search()
-{
-    searcherModel->clearModel();
 
-    ui->pushButtonSearch->setEnabled(false);
-    ui->pushButtonCancel->setEnabled(true);
-
-    QVector<u8> min = ui->filterSearcher->getMinIVs();
-    QVector<u8> max = ui->filterSearcher->getMaxIVs();
-
-    FrameFilter filter(ui->filterSearcher->getGender(), ui->filterSearcher->getAbility(), ui->filterSearcher->getShiny(), false, min, max,
-                       ui->filterSearcher->getNatures(), ui->filterSearcher->getHiddenPowers(), {});
-
-    u16 tid = currentProfile.getTID();
-    u16 sid = currentProfile.getSID();
-    u8 genderRatio = ui->filterSearcher->getGenderRatio();
-    auto method = static_cast<Method>(ui->comboBoxSearcherMethod->getCurrentInt());
-
-    auto *searcher = new StationarySearcher3(tid, sid, genderRatio, method, filter);
-
-    int maxProgress = 1;
-    for (u8 i = 0; i < 6; i++)
-    {
-        maxProgress *= max.at(i) - min.at(i) + 1;
-    }
-    ui->progressBar->setRange(0, maxProgress);
-
-    auto *thread = QThread::create([=] { searcher->startSearch(min, max); });
-    connect(thread, &QThread::finished, thread, &QThread::deleteLater);
-    connect(ui->pushButtonCancel, &QPushButton::clicked, [searcher] { searcher->cancelSearch(); });
-
-    auto *timer = new QTimer();
-    connect(timer, &QTimer::timeout, [=] { updateProgress(searcher->getResults(), searcher->getProgress()); });
-    connect(thread, &QThread::finished, timer, &QTimer::stop);
-    connect(thread, &QThread::finished, timer, &QTimer::deleteLater);
-    connect(timer, &QTimer::destroyed, [=] {
-        ui->pushButtonSearch->setEnabled(true);
-        ui->pushButtonCancel->setEnabled(false);
-        updateProgress(searcher->getResults(), searcher->getProgress());
-        delete searcher;
-    });
-
-    thread->start();
-    timer->start(1000);
-}
-
-void Stationary3::profilesIndexChanged(int index)
-{
-    if (index >= 0)
-    {
-        currentProfile = profiles.at(index);
-
-        ui->labelProfileTIDValue->setText(QString::number(currentProfile.getTID()));
-        ui->labelProfileSIDValue->setText(QString::number(currentProfile.getSID()));
-        ui->labelProfileGameValue->setText(currentProfile.getVersionString());
-    }
-}
 
 void Stationary3::tableViewGeneratorContextMenu(QPoint pos)
 {
@@ -259,40 +156,6 @@ void Stationary3::tableViewGeneratorContextMenu(QPoint pos)
 
         generatorMenu->popup(ui->tableViewGenerator->viewport()->mapToGlobal(pos));
     }
-}
-
-void Stationary3::tableViewSearcherContextMenu(QPoint pos)
-{
-    if (searcherModel->rowCount() > 0)
-    {
-        searcherMenu->popup(ui->tableViewSearcher->viewport()->mapToGlobal(pos));
-    }
-}
-
-void Stationary3::seedToTime()
-{
-    QModelIndex index = ui->tableViewSearcher->currentIndex();
-    index = searcherModel->index(index.row(), 0);
-    u32 seed = searcherModel->data(index).toString().toUInt(nullptr, 16);
-
-    auto *seedToTime = new SeedTime3(seed);
-    seedToTime->show();
-    seedToTime->raise();
-}
-
-void Stationary3::copySeedToClipboard()
-{
-    QModelIndex index = ui->tableViewSearcher->currentIndex();
-    index = searcherModel->index(index.row(), 0);
-
-    QApplication::clipboard()->setText(searcherModel->data(index).toString());
-}
-
-void Stationary3::profileManager()
-{
-    auto *manager = new ProfileManager3();
-    connect(manager, &ProfileManager3::updateProfiles, this, [=] { emit alertProfiles(3); });
-    manager->show();
 }
 
 void Stationary3::displayIVs(QStringList &label, const QVector<u8> &ivs)
@@ -441,17 +304,6 @@ void Stationary3::pokemonIndexChanged(int index)
         {
             ui->comboBoxAltForm->addItem(QString::number(i));
         }
-    }
-}
-
-void  Stationary3::altformIndexChanged(int index)
-{
-    if (index >= 0)
-    {
-        u16 specie = static_cast<u16>(ui->comboBoxPokemon->currentIndex());
-
-        auto base = personalInfo.at(specie + 1);
-        auto info = getPersonalInfo(base);
     }
 }
 
