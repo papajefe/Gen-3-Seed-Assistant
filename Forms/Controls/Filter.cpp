@@ -100,6 +100,11 @@ QVector<bool> Filter::getNatures()
     return ui->checkListNature->getChecked();
 }
 
+void Filter::resetNatures()
+{
+    ui->checkListNature->resetChecks();
+}
+
 u8 Filter::getShiny() const
 {
     return ui->comboBoxShiny->getCurrentByte();
@@ -118,6 +123,11 @@ u32 Filter::getDelay() const
 bool Filter::getDisableFilters()
 {
     return ui->checkBoxDisableFilters->isChecked();
+}
+
+void Filter::setSearchNature(int &calcNature)
+{
+    ui->checkListNature->manualCheck(calcNature);
 }
 
 void Filter::disableControls(u16 control)
@@ -182,4 +192,33 @@ void Filter::disableControls(u16 control)
     {
         ui->checkBoxDisableFilters->setVisible(false);
     }
+}
+
+void Filter::changeHP(int min, int max)
+{
+    ui->ivFilter->changeHP(min, max);
+}
+
+void Filter::changeAtk(int min, int max)
+{
+    ui->ivFilter->changeAtk(min, max);
+}
+
+void Filter::changeDef(int min, int max)
+{
+    ui->ivFilter->changeDef(min, max);
+}
+
+void Filter::changeSpA(int min, int max)
+{
+   ui->ivFilter->changeSpA(min, max);
+}
+
+void Filter::changeSpD(int min, int max)
+{
+   ui->ivFilter->changeSpD(min, max);
+}
+void Filter::changeSpe(int min, int max)
+{
+    ui->ivFilter->changeSpe(min, max);
 }

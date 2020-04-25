@@ -66,9 +66,18 @@ public:
     u32 getDelay() const;
     bool getDisableFilters();
     void disableControls(u16 control);
+    void setSearchNature(int &calcNature);
+    void resetNatures();
+    void changeHP(int min, int max);
+    void changeAtk(int min, int max);
+    void changeDef(int min, int max);
+    void changeSpA(int min, int max);
+    void changeSpD(int min, int max);
+    void changeSpe(int min, int max);
 
 private:
     Ui::Filter *ui;
+
 };
 
 #endif // FILTER_HPP

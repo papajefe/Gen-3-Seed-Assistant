@@ -36,6 +36,10 @@ class IVCalculator : public QWidget
 public:
     explicit IVCalculator(QWidget *parent = nullptr);
     ~IVCalculator() override;
+    void findIVs();
+    void pokemonIndexChanged(int index);
+    void altformIndexChanged(int index);
+    void generationIndexChanged(int index);
 
 private:
     Ui::IVCalculator *ui;
@@ -46,10 +50,6 @@ private:
     PersonalInfo getPersonalInfo(const PersonalInfo &base);
 
 private slots:
-    void findIVs();
-    void pokemonIndexChanged(int index);
-    void altformIndexChanged(int index);
-    void generationIndexChanged(int index);
 };
 
 #endif // IVCALCULATOR_HPP

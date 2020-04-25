@@ -19,6 +19,8 @@
 
 #ifndef STATIONARY3_H
 #define STATIONARY3_H
+#include <QLabel>
+#include <QTextEdit>
 
 #include <Core/Gen3/Profile3.hpp>
 #include <QMenu>
@@ -26,6 +28,7 @@
 class Frame;
 class StationaryGeneratorModel3;
 class StationarySearcherModel3;
+class PersonalInfo;
 
 namespace Ui
 {
@@ -38,6 +41,9 @@ class Stationary3 : public QWidget
 signals:
     void alertProfiles(int);
 
+
+
+
 public:
     explicit Stationary3(QWidget *parent = nullptr);
     ~Stationary3() override;
@@ -45,17 +51,21 @@ public:
 
 private:
     Ui::Stationary3 *ui;
+    QVector<PersonalInfo> personalInfo;
     StationaryGeneratorModel3 *generatorModel = nullptr;
     StationarySearcherModel3 *searcherModel = nullptr;
     QVector<Profile3> profiles;
     Profile3 currentProfile;
     QMenu *generatorMenu = nullptr;
     QMenu *searcherMenu = nullptr;
-
+    PersonalInfo getPersonalInfo(const PersonalInfo &base);
     void setupModels();
 
 private slots:
     void updateProgress(const QVector<Frame> &frames, int progress);
+    void displayIVs(QStringList &label, const QVector<u8> &ivs);
+    void findIVs();
+    void calculatestats();
     void generate();
     void search();
     void profilesIndexChanged(int index);
@@ -64,6 +74,10 @@ private slots:
     void seedToTime();
     void copySeedToClipboard();
     void profileManager();
+    void pokemonIndexChanged(int index);
+    void altformIndexChanged(int index);
+    void generationIndexChanged(int index);
+
 };
 
 #endif // STATIONARY3_H

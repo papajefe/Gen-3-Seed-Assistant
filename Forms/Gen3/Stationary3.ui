@@ -34,24 +34,6 @@
        <string>Generator</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="1">
-        <widget class="QGroupBox" name="groupBoxGeneratorFilters">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>2</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title">
-          <string>Filters</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0" rowspan="2">
-           <widget class="Filter" name="filterGenerator" native="true"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="1" column="1">
         <widget class="TableView" name="tableViewGenerator">
          <property name="contextMenuPolicy">
@@ -89,6 +71,38 @@
           <string>IV Calculator</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_6">
+          <item row="3" column="0" colspan="2">
+           <widget class="QPushButton" name="pushButtonGenerate">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Search For Seed</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="TextBox" name="textBoxGeneratorInitialFrame">
+            <property name="inputMethodHints">
+             <set>Qt::ImhDigitsOnly</set>
+            </property>
+            <property name="inputMask">
+             <string/>
+            </property>
+            <property name="text">
+             <string notr="true">11</string>
+            </property>
+            <property name="maxLength">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="labelGeneratorMethod">
             <property name="sizePolicy">
@@ -114,65 +128,6 @@
              <string>Target Frame (±10)</string>
             </property>
            </widget>
-          </item>
-          <item row="0" column="0" colspan="2">
-           <layout class="QGridLayout" name="gridLayout_10">
-            <item row="7" column="0">
-             <widget class="QTextEdit" name="textUserSeed">
-              <property name="placeholderText">
-               <string>FFFF</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="Plabel">
-              <property name="text">
-               <string>Pokemon</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QComboBox" name="comboBoxPokemonG3"/>
-            </item>
-            <item row="5" column="0">
-             <widget class="QTextEdit" name="textEdit">
-              <property name="placeholderText">
-               <string>Level HP Atk Def Spa Spd Spe</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0">
-             <widget class="QPushButton" name="CalculateIVButton">
-              <property name="text">
-               <string>Calculate IV Ranges (Send to Filters)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="Nlabel">
-              <property name="text">
-               <string>Nature</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="Slabel">
-              <property name="text">
-               <string>Enter Stats</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QComboBox" name="comboBoxNatures"/>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Enter Seeds</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
           </item>
           <item row="1" column="1">
            <widget class="ComboBox" name="comboBoxGeneratorMethod">
@@ -207,37 +162,108 @@
             </item>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="TextBox" name="textBoxGeneratorInitialFrame">
-            <property name="inputMethodHints">
-             <set>Qt::ImhDigitsOnly</set>
-            </property>
-            <property name="inputMask">
-             <string/>
-            </property>
-            <property name="text">
-             <string notr="true">11</string>
-            </property>
-            <property name="maxLength">
-             <number>10</number>
-            </property>
+          <item row="0" column="0" colspan="2">
+           <widget class="QGroupBox" name="StatCalc">
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="9" column="0">
+              <widget class="QPushButton" name="CalculateIVButton">
+               <property name="text">
+                <string>Calculate IV Ranges (Send to Filters)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QTextEdit" name="textEdit">
+               <property name="placeholderText">
+                <string>Level HP Atk Def Spa Spd Spe</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="Slabel">
+               <property name="text">
+                <string>Enter Stats</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QTextEdit" name="textUserSeed">
+               <property name="placeholderText">
+                <string>FFFF</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Enter Seeds</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <layout class="QGridLayout" name="gridLayout_12">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <item row="2" column="0">
+                <widget class="QLabel" name="Nlabel">
+                 <property name="text">
+                  <string>Nature</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QComboBox" name="comboBoxNatures"/>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="Plabel">
+                 <property name="text">
+                  <string>Pokemon</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="comboBoxAltForm"/>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="labelAltForm">
+                 <property name="text">
+                  <string>Alt Form</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QComboBox" name="comboBoxPokemon">
+                 <property name="autoFillBackground">
+                  <bool>false</bool>
+                 </property>
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QPushButton" name="pushButtonGenerate">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Search For Seed</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-            <property name="autoDefault">
-             <bool>false</bool>
-            </property>
-           </widget>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QGroupBox" name="groupBoxGeneratorFilters">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>2</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>Filters</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0" rowspan="2">
+           <widget class="Filter" name="filterGenerator" native="true"/>
           </item>
          </layout>
         </widget>
@@ -310,6 +336,9 @@
              <widget class="QLabel" name="labelSearcherMethod">
               <property name="text">
                <string>Method</string>
+              </property>
+              <property name="buddy">
+               <cstring>StatCalc</cstring>
               </property>
              </widget>
             </item>

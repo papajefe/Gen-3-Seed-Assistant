@@ -18,9 +18,14 @@
  */
 
 #include "Stationary3.hpp"
+#include "Forms/Util/IVCalculator.hpp"
+#include "Forms/Controls/Filter.hpp"
+#include "Forms/Controls/CheckList.hpp"
 #include "ui_Stationary3.h"
 #include <Core/Enum/Game.hpp>
 #include <Core/Enum/Method.hpp>
+#include <Core/Parents/PersonalInfo.hpp>
+#include <Core/Util/IVChecker.hpp>
 #include <Core/Gen3/Generators/StationaryGenerator3.hpp>
 #include <Core/Gen3/ProfileLoader3.hpp>
 #include <Core/Gen3/Searchers/StationarySearcher3.hpp>
@@ -29,6 +34,8 @@
 #include <Forms/Gen3/Tools/SeedTime3.hpp>
 #include <Models/Gen3/StationaryModel3.hpp>
 #include <QClipboard>
+#include <QCompleter>
+#include <QMessageBox>
 #include <QSettings>
 #include <QThread>
 #include <QTimer>
@@ -88,7 +95,11 @@ void Stationary3::setupModels()
     searcherModel = new StationarySearcherModel3(ui->tableViewSearcher);
     generatorMenu = new QMenu(ui->tableViewGenerator);
     searcherMenu = new QMenu(ui->tableViewSearcher);
-
+    generationIndexChanged(0);
+    ui->comboBoxPokemon->setEditable(true);
+    ui->comboBoxPokemon->completer()->setCompletionMode(QCompleter::PopupCompletion);
+    connect(ui->comboBoxPokemon, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::pokemonIndexChanged);
+    connect(ui->comboBoxAltForm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::altformIndexChanged);
     ui->tableViewGenerator->setModel(generatorModel);
     ui->tableViewSearcher->setModel(searcherModel);
     ui->textBoxGeneratorInitialFrame->setValues(InputType::Frame32Bit);
@@ -114,6 +125,7 @@ void Stationary3::setupModels()
 
     connect(ui->pushButtonGenerate, &QPushButton::clicked, this, &Stationary3::generate);
     connect(ui->pushButtonSearch, &QPushButton::clicked, this, &Stationary3::search);
+    connect(ui->CalculateIVButton, &QPushButton::clicked, this, &Stationary3::calculatestats);
     connect(ui->tableViewGenerator, &QTableView::customContextMenuRequested, this, &Stationary3::tableViewGeneratorContextMenu);
     connect(ui->tableViewSearcher, &QTableView::customContextMenuRequested, this, &Stationary3::tableViewSearcherContextMenu);
     connect(ui->pushButtonProfileManager, &QPushButton::clicked, this, &Stationary3::profileManager);
@@ -130,6 +142,8 @@ void Stationary3::updateProgress(const QVector<Frame> &frames, int progress)
     searcherModel->addItems(frames);
     ui->progressBar->setValue(progress);
 }
+
+
 
 void Stationary3::generate()
 {
@@ -274,4 +288,217 @@ void Stationary3::profileManager()
     auto *manager = new ProfileManager3();
     connect(manager, &ProfileManager3::updateProfiles, this, [=] { emit alertProfiles(3); });
     manager->show();
+}
+
+void Stationary3::displayIVs(QStringList &label, const QVector<u8> &ivs)
+{
+    QString result;
+
+    if (ivs.isEmpty())
+    {
+        result = tr("Invalid");
+    }
+    else
+    {
+        bool flag = false;
+        for (int i = 0; i < ivs.size(); i++)
+        {
+            if (i == 0)
+            {
+                result += QString::number(ivs.at(i));
+            }
+            else
+            {
+                if (ivs.at(i) == ivs.at(i - 1) + 1)
+                {
+                    flag = true;
+
+                    //  Check to see if we need to cap here.
+                    if (i == ivs.size() - 1)
+                    {
+                        result += QString("-%1").arg(ivs.at(i));
+                    }
+                }
+                else
+                {
+                    if (flag)
+                    {
+                        flag = false;
+                        result += QString("-%1").arg(ivs.at(i - 1));
+                        result += QString(", %1").arg(ivs.at(i));
+                    }
+                    else
+                    {
+                        result += QString(", %1").arg(ivs.at(i));
+                    }
+                }
+            }
+        }
+    }
+
+    label.append(result);
+}
+
+void Stationary3::findIVs()
+{
+    QVector<QVector<u16>> stats;
+    QVector<u8> levels;
+
+    QStringList entries = ui->textEdit->toPlainText().split("\n");
+    bool flag = true;
+    for (const QString &entry : entries)
+    {
+        QStringList values = entry.split(" ");
+        if (values.size() != 7)
+        {
+            flag = false;
+            break;
+        }
+
+        levels.append(static_cast<u8>(values.at(0).toUInt(&flag)));
+        if (!flag)
+        {
+            break;
+        }
+
+        QVector<u16> stat;
+        for (u8 i = 1; i < 7; i++)
+        {
+            stat.append(static_cast<u16>(values.at(i).toUInt(&flag)));
+            if (!flag)
+            {
+                break;
+            }
+        }
+        stats.append(stat);
+
+        if (!flag)
+        {
+            break;
+        }
+    }
+
+    if (!flag)
+    {
+        QMessageBox error;
+        error.setText(tr("Invalid input"));
+        error.exec();
+        return;
+    }
+
+    u8 nature = static_cast<u8>(ui->comboBoxNatures->currentIndex());
+    u8 hiddenPower = -1;
+    u8 characteristic = -1;
+    auto base = personalInfo.at(ui->comboBoxPokemon->currentIndex() + 1);
+
+    auto ivs = IVChecker::calculateIVRange(getPersonalInfo(base).getBaseStats(), stats, levels, nature, characteristic, hiddenPower);
+    QStringList calcIVs;
+    displayIVs(calcIVs, ivs.at(0));
+    displayIVs(calcIVs, ivs.at(1));
+    displayIVs(calcIVs, ivs.at(2));
+    displayIVs(calcIVs, ivs.at(3));
+    displayIVs(calcIVs, ivs.at(4));
+    displayIVs(calcIVs, ivs.at(5));
+    QStringList splitIVs;
+    for (int i = 0; i < calcIVs.size(); i++)
+    {
+    splitIVs.append(calcIVs.at(i).split("\n"));
+    }
+    QRegExp IVSplitter("[-,]");
+    QStringList hp = splitIVs.at(0).split(IVSplitter);
+    ui->filterGenerator->changeHP(hp.first().toUInt(), hp.last().toUInt());
+    QStringList Atk = splitIVs.at(1).split(IVSplitter);
+    ui->filterGenerator->changeAtk(Atk.first().toUInt(), Atk.last().toUInt());
+    QStringList Def = splitIVs.at(2).split(IVSplitter);
+    ui->filterGenerator->changeDef(Def.first().toUInt(), Def.last().toUInt());
+    QStringList SpA = splitIVs.at(3).split(IVSplitter);
+    ui->filterGenerator->changeSpA(SpA.first().toUInt(), SpA.last().toUInt());
+    QStringList SpD = splitIVs.at(4).split(IVSplitter);
+    ui->filterGenerator->changeSpD(SpD.first().toUInt(), SpD.last().toUInt());
+    QStringList Spe = splitIVs.at(5).split(IVSplitter);
+    ui->filterGenerator->changeSpe(Spe.first().toUInt(), Spe.last().toUInt());
+
+}
+
+
+void Stationary3::pokemonIndexChanged(int index)
+{
+    if (index >= 0 && !personalInfo.isEmpty())
+    {
+        PersonalInfo base = personalInfo.at(index + 1);
+        u8 formCount = base.getFormCount();
+
+        ui->labelAltForm->setVisible(formCount > 1);
+        ui->comboBoxAltForm->setVisible(formCount > 1);
+
+        ui->comboBoxAltForm->clear();
+        for (u8 i = 0; i < formCount; i++)
+        {
+            ui->comboBoxAltForm->addItem(QString::number(i));
+        }
+    }
+}
+
+void  Stationary3::altformIndexChanged(int index)
+{
+    if (index >= 0)
+    {
+        u16 specie = static_cast<u16>(ui->comboBoxPokemon->currentIndex());
+
+        auto base = personalInfo.at(specie + 1);
+        auto info = getPersonalInfo(base);
+    }
+}
+
+void  Stationary3::generationIndexChanged(int index)
+{
+    if (index >= 0)
+    {
+        u16 max = 0;
+        if (index == 0)
+        {
+            personalInfo = PersonalInfo::loadPersonal(3);
+            max = 386;
+        }
+        else if (index == 1)
+        {
+            personalInfo = PersonalInfo::loadPersonal(4);
+            max = 493;
+        }
+        else if (index == 2)
+        {
+            personalInfo = PersonalInfo::loadPersonal(5);
+            max = 649;
+        }
+
+        QVector<u16> species;
+        for (u16 i = 1; i <= max; i++)
+        {
+            species.append(i);
+        }
+
+        ui->comboBoxPokemon->clear();
+        ui->comboBoxPokemon->addItems(Translator::getSpecies(species));
+    }
+}
+PersonalInfo Stationary3::getPersonalInfo(const PersonalInfo &base)
+{
+    u8 form = static_cast<u8>(ui->comboBoxAltForm->currentIndex());
+    u16 formIndex = base.getFormStatIndex();
+
+    if (form == 0 || formIndex == 0)
+    {
+        return base;
+    }
+
+    return personalInfo.at(formIndex + form - 1);
+}
+
+void Stationary3::calculatestats()
+{
+ui->filterGenerator->resetNatures();
+int calcNature;
+calcNature = ui->comboBoxNatures->currentIndex();
+ui->filterGenerator->setSearchNature(calcNature);
+findIVs();
 }

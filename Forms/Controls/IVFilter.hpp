@@ -38,16 +38,17 @@ public:
     QVector<u8> getUpper() const;
     void clearValues();
     void setValues(u8 hp, u8 atk, u8 def, u8 spa, u8 spd, u8 spe);
-
-private:
-    Ui::IVFilter *ui;
-
     void changeHP(int min, int max);
     void changeAtk(int min, int max);
     void changeDef(int min, int max);
     void changeSpA(int min, int max);
     void changeSpD(int min, int max);
     void changeSpe(int min, int max);
+
+private:
+    Ui::IVFilter *ui;
+
+
 
 private slots:
     void changeCompareHP(int type);

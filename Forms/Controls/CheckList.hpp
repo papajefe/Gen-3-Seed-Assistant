@@ -32,6 +32,7 @@ public:
     void setup(const QStringList &items = QStringList());
     QVector<bool> getChecked() const;
     void setChecks(QVector<bool> flags);
+    void manualCheck(int &calcNature);
 
 public slots:
     void resetChecks();

@@ -79,6 +79,12 @@ void CheckList::setChecks(QVector<bool> flags)
     }
 }
 
+void CheckList::manualCheck(int &calcNature)
+{
+        model->item(calcNature)->setCheckState(Qt::Checked);
+}
+
+
 void CheckList::resetChecks()
 {
     for (auto i = 0; i < model->rowCount(); i++)
