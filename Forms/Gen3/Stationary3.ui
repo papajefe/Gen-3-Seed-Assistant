@@ -141,6 +141,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
               <property name="value">
                <number>10</number>
               </property>
