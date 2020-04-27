@@ -136,8 +136,10 @@ void Stationary3::generate()
     FrameFilter filter(ui->filterGenerator->getGender(), ui->filterGenerator->getAbility(), ui->filterGenerator->getShiny(),
                        ui->filterGenerator->getDisableFilters(), ui->filterGenerator->getMinIVs(), ui->filterGenerator->getMaxIVs(),
                        ui->filterGenerator->getNatures(), ui->filterGenerator->getHiddenPowers(), {});
+    int plusMinus = ui->spinBoxPlusMinus->value();
+    int centerFrame = initialFrame-((plusMinus));
 
-    StationaryGenerator3 generator(initialFrame-10, 21, 12345, 64321, genderRatio, method, filter);
+    StationaryGenerator3 generator(centerFrame, (plusMinus*2)+1, 12345, 64321, genderRatio, method, filter);
     generator.setOffset(offset);
     auto frames = generator.generate(seed);
     generatorModel->addItems(frames);
