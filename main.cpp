@@ -29,8 +29,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setApplicationName("PokeFinder");
-    a.setOrganizationName("PokeFinder Team");
+    a.setApplicationName("Gen 3 Seed Assistant");
+    a.setOrganizationName("PokeFinder Team + Papa Jefé");
 
     QSettings setting;
 
