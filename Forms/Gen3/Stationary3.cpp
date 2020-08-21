@@ -66,7 +66,7 @@ void Stationary3::setupModels()
     connect(ui->comboBoxAltForm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::altformIndexChanged);
     ui->tableViewGenerator->setModel(generatorModel);
     ui->textBoxGeneratorInitialFrame->setValues(InputType::Frame32Bit);
-    ui->comboBoxGeneratorMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4 });
+    ui->comboBoxGeneratorMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4, Method::MethodH2 });
     ui->comboBoxNatures->addItems(Translator::getNatures());
     ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::Ability | Controls::UseDelay | Controls::DisableFilter | Controls::HiddenPowers | Controls::Shiny);
     ui->comboBoxAltForm->setVisible(false);
@@ -315,7 +315,7 @@ void  Stationary3::generationIndexChanged(int index)
         if (index == 0)
         {
             personalInfo = PersonalInfo::loadPersonal(3);
-            max = 386;
+            max = 389;
         }
         else if (index == 1)
         {

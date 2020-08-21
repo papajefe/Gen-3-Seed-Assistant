@@ -384,6 +384,9 @@ Groudon
 Rayquaza
 Jirachi
 Deoxys
+Deoxys-A
+Deoxys-D
+Deoxys-S
 Turtwig
 Grotle
 Torterra
