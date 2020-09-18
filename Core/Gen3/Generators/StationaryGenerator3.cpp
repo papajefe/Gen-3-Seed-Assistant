@@ -107,6 +107,7 @@ QVector<Frame> StationaryGenerator3::generateMethod1Reverse(u32 seed) const
 
         frame.setPID(high, low);
         frame.setAbility(low & 1);
+        frame.setSeed(seed);
         frame.setGender(low & 255, genderRatio);
         frame.setNature(frame.getPID() % 25);
         frame.setShiny(tsv, high ^ low, 8);
