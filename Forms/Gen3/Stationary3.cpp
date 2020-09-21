@@ -68,7 +68,7 @@ void Stationary3::setupModels()
     ui->textBoxGeneratorInitialFrame->setValues(InputType::Frame32Bit);
     ui->comboBoxGeneratorMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4, Method::MethodH2 });
     ui->comboBoxNatures->addItems(Translator::getNatures());
-    ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::Ability | Controls::UseDelay | Controls::DisableFilter | Controls::HiddenPowers | Controls::Shiny);
+    ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::UseDelay | Controls::DisableFilter);
     ui->comboBoxAltForm->setVisible(false);
     ui->labelAltForm->setVisible(false);
     QAction *outputTXTGenerator = generatorMenu->addAction(tr("Output Results to TXT"));
@@ -125,6 +125,8 @@ void Stationary3::generate()
     for (int i = 0; i < seeds.size(); i++){
     u32 seed = seeds.at(i);
     u32 initialFrame = ui->textBoxGeneratorInitialFrame->getUInt();
+    u16 userTID = ui->filterGenerator->getTID();
+    u16 userSID = ui->filterGenerator->getSID();
     u8 genderRatio = ui->filterGenerator->getGenderRatio();
     auto method = static_cast<Method>(ui->comboBoxGeneratorMethod->getCurrentInt());
     u32 offset = 0;
@@ -139,7 +141,7 @@ void Stationary3::generate()
     int plusMinus = ui->spinBoxPlusMinus->value();
     int centerFrame = initialFrame-((plusMinus));
 
-    StationaryGenerator3 generator(centerFrame, (plusMinus*2)+1, 12345, 64321, genderRatio, method, filter);
+    StationaryGenerator3 generator(centerFrame, (plusMinus*2)+1, userTID, userSID, genderRatio, method, filter);
     generator.setOffset(offset);
     auto frames = generator.generate(seed);
     generatorModel->addItems(frames);

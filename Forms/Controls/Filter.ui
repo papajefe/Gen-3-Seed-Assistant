@@ -7,15 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>458</width>
-    <height>261</height>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">Filter</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QLabel" name="labelGender">
+   <item row="2" column="1">
+    <widget class="QLabel" name="labelGenderRatio">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -23,7 +23,33 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Gender</string>
+      <string>Gender Ratio</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="labelShiny">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Shiny</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLabel" name="labelHiddenPower">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Hidden Power</string>
      </property>
     </widget>
    </item>
@@ -40,32 +66,109 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="labelGenderRatio">
+   <item row="5" column="2">
+    <widget class="CheckList" name="checkListNature">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Gender Ratio</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" rowspan="9">
+   <item row="6" column="2">
+    <widget class="ComboBox" name="comboBoxShiny">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <item>
+      <property name="text">
+       <string>Any</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Star</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Square</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Star/Square</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="CheckList" name="checkListEncounterSlot">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="TextBox" name="textBoxDelay">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QCheckBox" name="checkBoxUseDelay">
+     <property name="text">
+      <string>Use Delay</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="CheckList" name="checkListHiddenPower">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" rowspan="11">
     <widget class="IVFilter" name="ivFilter" native="true"/>
    </item>
-   <item row="6" column="1">
-    <widget class="QLabel" name="labelShiny">
+   <item row="5" column="3">
+    <widget class="QPushButton" name="pushButtonNatureAny">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Shiny</string>
+      <string>Any</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QPushButton" name="pushButtonHiddenPowerAny">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Any</string>
      </property>
     </widget>
    </item>
@@ -82,8 +185,8 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="3">
-    <widget class="QPushButton" name="pushButtonNatureAny">
+   <item row="3" column="3">
+    <widget class="QPushButton" name="pushButtonEncounterSlotAny">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -92,6 +195,19 @@
      </property>
      <property name="text">
       <string>Any</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="labelEncounterSlot">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Encounter Slot</string>
      </property>
     </widget>
    </item>
@@ -118,42 +234,6 @@
        <string notr="true">♀</string>
       </property>
      </item>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QPushButton" name="pushButtonEncounterSlotAny">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Any</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="CheckList" name="checkListNature">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
-    <widget class="QPushButton" name="pushButtonHiddenPowerAny">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Any</string>
-     </property>
     </widget>
    </item>
    <item row="2" column="2">
@@ -201,7 +281,27 @@
      </item>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="1">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>TID</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="labelGender">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Gender</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
     <widget class="QCheckBox" name="checkBoxDisableFilters">
      <property name="text">
       <string>Disable Filters</string>
@@ -233,96 +333,24 @@
      </item>
     </widget>
    </item>
-   <item row="4" column="2">
-    <widget class="CheckList" name="checkListHiddenPower">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="labelHiddenPower">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="10" column="1">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Hidden Power</string>
+      <string>SID</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="labelEncounterSlot">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Encounter Slot</string>
+   <item row="9" column="2">
+    <widget class="QLineEdit" name="TID">
+     <property name="placeholderText">
+      <string>12345</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
-    <widget class="ComboBox" name="comboBoxShiny">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <item>
-      <property name="text">
-       <string>Any</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Star</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Square</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Star/Square</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QCheckBox" name="checkBoxUseDelay">
-     <property name="text">
-      <string>Use Delay</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="CheckList" name="checkListEncounterSlot">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="TextBox" name="textBoxDelay">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="10" column="2">
+    <widget class="QLineEdit" name="SID">
+     <property name="placeholderText">
+      <string>54321</string>
      </property>
     </widget>
    </item>
@@ -367,7 +395,6 @@
   <tabstop>comboBoxShiny</tabstop>
   <tabstop>checkBoxUseDelay</tabstop>
   <tabstop>textBoxDelay</tabstop>
-  <tabstop>checkBoxDisableFilters</tabstop>
  </tabstops>
  <resources/>
  <connections/>

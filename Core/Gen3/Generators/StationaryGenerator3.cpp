@@ -73,7 +73,6 @@ QVector<Frame> StationaryGenerator3::generateMethod124(u32 seed) const
         frame.setGender(low & 255, genderRatio);
         frame.setNature(frame.getPID() % 25);
         frame.setShiny(tsv, high ^ low, 8);
-
         frame.setIVs(iv1, iv2);
         frame.calculateHiddenPower();
 

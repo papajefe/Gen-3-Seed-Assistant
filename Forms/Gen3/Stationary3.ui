@@ -258,13 +258,6 @@
             </layout>
            </widget>
           </item>
-          <item row="6" column="0" colspan="2">
-           <widget class="QTextEdit" name="textUserSeed">
-            <property name="placeholderText">
-             <string>FFFF</string>
-            </property>
-           </widget>
-          </item>
           <item row="7" column="0" colspan="2">
            <widget class="QPushButton" name="pushButtonGenerate">
             <property name="enabled">
@@ -298,6 +291,13 @@
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Enter Seeds</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0" colspan="2">
+           <widget class="QPlainTextEdit" name="textUserSeed">
+            <property name="placeholderText">
+             <string>FFFF</string>
             </property>
            </widget>
           </item>

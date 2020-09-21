@@ -48,6 +48,7 @@ QVariant StationaryGeneratorModel3::data(const QModelIndex &index, int role) con
         case 4:
             return frame.getAbility();
         case 5:
+
         case 6:
         case 7:
         case 8:
@@ -55,11 +56,14 @@ QVariant StationaryGeneratorModel3::data(const QModelIndex &index, int role) con
         case 10:
             return frame.getIV(static_cast<u8>(column - 5));
         case 11:
-            return Translator::getHiddenPower(frame.getHidden());
-        case 12:
-            return frame.getPower();
-        case 13:
             return Translator::getGender(frame.getGender());
+        case 12:
+            return Translator::getHiddenPower(frame.getHidden());
+        case 13:
+        {
+            u8 shiny = frame.getShiny();
+            return shiny == 2 ? tr("Square") : shiny == 1 ? tr("Star") : tr("No");
+        }
         }
     }
     return QVariant();

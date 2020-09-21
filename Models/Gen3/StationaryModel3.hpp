@@ -34,7 +34,7 @@ public:
 
 private:
     QStringList header = { tr("Frame"), tr("PID"), tr("Seed"), tr("Nature"), tr("Ability"), tr("HP"),    tr("Atk"),
-                           tr("Def"),   tr("SpA"), tr("SpD"),   tr("Spe"),    tr("Hidden"),  tr("Power"), tr("Gender") };
+                           tr("Def"),   tr("SpA"), tr("SpD"),   tr("Spe"), tr("Gender"),  tr("Hidden"),  tr("Shiny")};
 };
 
 class StationarySearcherModel3 : public TableModel<Frame>

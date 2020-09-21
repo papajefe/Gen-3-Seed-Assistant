@@ -51,6 +51,8 @@ public:
 
     QVector<u8> getMinIVs() const;
     QVector<u8> getMaxIVs() const;
+    u16 getTID() const;
+    u16 getSID() const;
     u8 getAbility() const;
     u8 getGender() const;
     QVector<u32> getSeeds() const;

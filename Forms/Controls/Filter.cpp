@@ -50,6 +50,20 @@ QVector<u8> Filter::getMinIVs() const
     return ui->ivFilter->getLower();
 }
 
+u16 Filter::getTID() const
+{
+    QString TID = ui->TID->text();
+    u16 uTID = TID.toUShort(nullptr);
+    return uTID;
+}
+
+u16 Filter::getSID() const
+{
+    QString SID = ui->SID->text();
+    u16 uSID = SID.toUShort(nullptr);
+    return uSID;
+}
+
 QVector<u8> Filter::getMaxIVs() const
 {
     return ui->ivFilter->getUpper();
