@@ -38,7 +38,7 @@ QVariant StationaryGeneratorModel3::data(const QModelIndex &index, int role) con
         switch (column)
         {
         case 0:
-            return frame.getFrame();
+            return frame.getFrame()-1;
         case 1:
             return QString::number(frame.getPID(), 16).toUpper().rightJustified(8, '0');
         case 2:
