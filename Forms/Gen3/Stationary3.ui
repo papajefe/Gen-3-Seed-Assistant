@@ -103,7 +103,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Target Frame</string>
+               <string>Target Advances</string>
               </property>
              </widget>
             </item>
