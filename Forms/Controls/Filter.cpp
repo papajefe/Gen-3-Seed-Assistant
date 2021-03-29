@@ -20,13 +20,22 @@
 #include "Filter.hpp"
 #include "ui_Filter.h"
 #include <Core/Util/Translator.hpp>
+#include <Core/Enum/Encounter.hpp>
+#include <Core/Enum/Game.hpp>
+#include <Core/Enum/Lead.hpp>
+#include <Core/Enum/Method.hpp>
+#include <Core/Enum/Game.hpp>
 
 Filter::Filter(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Filter)
 {
     ui->setupUi(this);
-
+    ui->comboBoxGame->setItemData(0, Game::Ruby);
+    ui->comboBoxGame->setItemData(1, Game::Sapphire);
+    ui->comboBoxGame->setItemData(2, Game::FireRed);
+    ui->comboBoxGame->setItemData(3, Game::LeafGreen);
+    ui->comboBoxGame->setItemData(4, Game::Emerald);
     ui->comboBoxAbility->setup({ 255, 0, 1 });
     ui->comboBoxGender->setup({ 255, 0, 1 });
     ui->comboBoxGenderRatio->setup({ 255, 127, 191, 63, 31, 0, 254 });

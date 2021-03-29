@@ -21,6 +21,7 @@
 #include "Forms/Util/IVCalculator.hpp"
 #include "Forms/Controls/Filter.hpp"
 #include "Forms/Controls/CheckList.hpp"
+
 #include "ui_Stationary3.h"
 #include <Core/Enum/Game.hpp>
 #include <Core/Enum/Method.hpp>
@@ -29,6 +30,7 @@
 #include <Core/Gen3/Generators/StationaryGenerator3.hpp>
 #include <Core/Util/Translator.hpp>
 #include <Models/Gen3/StationaryModel3.hpp>
+#include <Models/Gen3/WildModel3.hpp>
 #include <QClipboard>
 #include <QCompleter>
 #include <QMessageBox>
