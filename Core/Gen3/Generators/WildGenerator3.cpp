@@ -177,6 +177,7 @@ QVector<WildFrame> WildGenerator3::generate(u32 seed) const
         } while (pid % 25 != frame.getNature() || (cuteCharmFlag && !cuteCharm(pid)));
 
         frame.setPID(pid);
+        frame.setSeed(seed);
         frame.setAbility(pid & 1);
         frame.setGender(pid & 255, genderRatio);
         frame.setShiny(tsv, (pid & 0xffff) ^ (pid >> 16), 8);

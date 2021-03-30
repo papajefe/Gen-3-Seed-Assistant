@@ -214,7 +214,7 @@ void Stationary3::generateWild()
     int centerFrame = initialFrame-((plusMinus));
     WildGenerator3 generator(centerFrame, (plusMinus*2)+1, userTID, userSID, genderRatio, method, filter);
     generator.setEncounter(static_cast<Encounter>(ui->filterGenerator->getEncounter()));
-    generator.setEncounterArea(ui->filterGenerator->getLocIndex());
+    generator.setEncounterArea(ui->filterGenerator->getLocData());
     generator.setOffset(offset);
 
     if (ui->filterGenerator->getLeadText() == tr("Cute Charm"))

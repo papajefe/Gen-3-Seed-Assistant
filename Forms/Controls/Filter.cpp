@@ -372,8 +372,13 @@ int leadIndex = ui->comboBoxGeneratorLead->currentIndex();
 return leadIndex;
 }
 
-EncounterArea3 Filter::getLocIndex() const{
-EncounterArea3 area = encounterGenerator[ui->comboBoxGeneratorLocation->currentData().toInt()];
+auto Filter::getLocIndex() const{
+    auto locIndex = encounterGenerator.at(ui->comboBoxGeneratorLocation->currentIndex());
+    return locIndex;
+    }
+
+EncounterArea3 Filter::getLocData() const{
+EncounterArea3 area = encounterGenerator[ui->comboBoxGeneratorLocation->currentIndex()];
 return area;
 }
 
@@ -395,7 +400,7 @@ void Filter::updateLocationsGenerator()
 }
 void Filter::updatePokemonGenerator()
 {
-    auto area = encounterGenerator.at(ui->comboBoxGeneratorLocation->currentIndex());
+    auto area = getLocIndex();
     QVector<u16> species = area.getUniqueSpecies();
 
     QStringList names = area.getSpecieNames();
@@ -489,7 +494,7 @@ void Filter::generatorPokemonIndexChanged(int index)
     else
     {
         u16 num = static_cast<u16>(ui->comboBoxGeneratorPokemon->currentData().toUInt());
-        QVector<bool> flags = encounterGenerator.at(ui->comboBoxGeneratorLocation->currentIndex()).getSlots(num);
+        QVector<bool> flags = getLocIndex().getSlots(num);
 
         toggleEncounterSlots(flags);
     }

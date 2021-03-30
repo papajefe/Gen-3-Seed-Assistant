@@ -77,7 +77,8 @@ public:
     u32 getDelay() const;
     Game getGame() const;
     int getEncounter() const;
-    EncounterArea3 getLocIndex() const;
+    auto getLocIndex() const;
+    EncounterArea3 getLocData() const;
     QString getLeadText() const;
     int getIntLead()const;
     int getLeadIndex()const;
