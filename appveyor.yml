@@ -38,7 +38,7 @@ after_build:
     # Windows
     - cmd: md Gen3Assistant-windows
     - cmd: move release\PokeFinder.exe Gen3Assistant-windows\PokeFinder.exe 
-    - cmd: rename Gen3Assistant-windows\PokeFinder.exe Gen3Assistant-windows\Gen3SeedAssistant.exe 
+    - cmd: ren Gen3Assistant-windows\PokeFinder.exe Gen3SeedAssistant.exe 
     - cmd: windeployqt --release --no-translations --no-angle --no-plugins --no-opengl-sw Gen3Assistant-windows\Gen3SeedAssistant.exe
     - cmd: del Gen3Assistant-windows\vc_redist*.exe
     - cmd: xcopy /I %QTPATH%\plugins\platforms\qwindows.dll Gen3Assistant-windows\platforms\
