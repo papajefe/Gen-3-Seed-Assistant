@@ -21,7 +21,10 @@
 #define FILTER_HPP
 
 #include <Core/Util/Global.hpp>
+#include <Core/Gen3/EncounterArea3.hpp>
 #include <QWidget>
+
+enum Game : u16;
 
 enum Controls : u16
 {
@@ -34,7 +37,12 @@ enum Controls : u16
     Natures = 1 << 6,
     Shiny = 1 << 7,
     UseDelay = 1 << 8,
-    DisableFilter = 1 << 9
+    DisableFilter = 1 << 9,
+    FilterGame = 1 << 10,
+    FilterEncounter = 1 << 11,
+    FilterLocation = 1 << 12,
+    FilterPokemon = 1 << 13,
+    FilterLead = 1 << 14
 };
 
 namespace Ui
@@ -60,12 +68,19 @@ public:
     QVector<bool> getEncounterSlots();
     void setEncounterSlots(const QStringList &encounterSlots) const;
     void toggleEncounterSlots(const QVector<bool> &encounterSlots) const;
+    QVector<EncounterArea3> encounterGenerator;
     void resetEncounterSlots() const;
     QVector<bool> getHiddenPowers();
     QVector<bool> getNatures();
     u8 getShiny() const;
     bool useDelay() const;
     u32 getDelay() const;
+    Game getGame() const;
+    int getEncounter() const;
+    EncounterArea3 getLocIndex() const;
+    QString getLeadText() const;
+    int getIntLead()const;
+    int getLeadIndex()const;
     bool getDisableFilters();
     void disableControls(u16 control);
     void setSearchNature(int &calcNature);
@@ -76,6 +91,14 @@ public:
     void changeSpA(int min, int max);
     void changeSpD(int min, int max);
     void changeSpe(int min, int max);
+    void enableControls();
+    void updateLocationsGenerator();
+    void generatorLead();
+    void updatePokemonGenerator();
+    void generatorEncounterIndexChanged(int index);
+    void generatorLocationIndexChanged(int index);
+    void generatorPokemonIndexChanged(int index);
+    void updateEncounterList();
 
 private:
     Ui::Filter *ui;

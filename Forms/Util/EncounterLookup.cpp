@@ -94,7 +94,7 @@ QSet<QPair<u8, QString>> EncounterLookup::getEncounters3(Game game, u16 specie)
 
     for (const auto &type : types)
     {
-        auto areas = Encounters3::getEncounters(type, profile);
+        auto areas = Encounters3::getEncounters(type, game);
         for (const auto &area : areas)
         {
             QVector<Slot> pokemon = area.getPokemon();

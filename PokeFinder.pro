@@ -52,7 +52,6 @@ FORMS += \
     Forms/Gen3/Tools/PokeSpot.ui \
     Forms/Gen3/Tools/SeedTime3.ui \
     Forms/Gen3/Tools/SpindaPainter.ui \
-    Forms/Gen3/Wild3.ui \
     Forms/Gen4/Eggs4.ui \
     Forms/Gen4/IDs4.ui \
     Forms/Gen4/Profile/ProfileEditor4.ui \
@@ -177,7 +176,6 @@ HEADERS += \
     Forms/Gen3/Tools/PokeSpot.hpp \
     Forms/Gen3/Tools/SeedTime3.hpp \
     Forms/Gen3/Tools/SpindaPainter.hpp \
-    Forms/Gen3/Wild3.hpp \
     Forms/Gen4/Eggs4.hpp \
     Forms/Gen4/IDs4.hpp \
     Forms/Gen4/Profile/ProfileEditor4.hpp \
@@ -309,7 +307,6 @@ SOURCES += \
     Forms/Gen3/Tools/PokeSpot.cpp \
     Forms/Gen3/Tools/SeedTime3.cpp \
     Forms/Gen3/Tools/SpindaPainter.cpp \
-    Forms/Gen3/Wild3.cpp \
     Forms/Gen4/Eggs4.cpp \
     Forms/Gen4/IDs4.cpp \
     Forms/Gen4/Profile/ProfileEditor4.cpp \

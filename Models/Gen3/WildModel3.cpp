@@ -39,7 +39,7 @@ QVariant WildGeneratorModel3::data(const QModelIndex &index, int role) const
         switch (column)
         {
         case 0:
-            return frame.getFrame();
+            return frame.getFrame()-1;
         case 1:
             return frame.getEncounterSlot();
         case 2:
@@ -47,10 +47,7 @@ QVariant WildGeneratorModel3::data(const QModelIndex &index, int role) const
         case 3:
             return QString::number(frame.getPID(), 16).toUpper().rightJustified(8, '0');
         case 4:
-        {
-            u8 shiny = frame.getShiny();
-            return shiny == 2 ? tr("Square") : shiny == 1 ? tr("Star") : tr("No");
-        }
+            return QString::number(frame.getSeed(), 16).toUpper().rightJustified(4, '0');
         case 5:
             return Translator::getNature(frame.getNature());
         case 6:
@@ -65,7 +62,10 @@ QVariant WildGeneratorModel3::data(const QModelIndex &index, int role) const
         case 13:
             return Translator::getHiddenPower(frame.getHidden());
         case 14:
-            return frame.getPower();
+        {
+            u8 shiny = frame.getShiny();
+            return shiny == 2 ? tr("Square") : shiny == 1 ? tr("Star") : tr("No");
+        }
         case 15:
             return Translator::getGender(frame.getGender());
         }

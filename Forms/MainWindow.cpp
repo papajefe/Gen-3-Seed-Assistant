@@ -241,7 +241,7 @@ void MainWindow::updateProfiles(int num)
         }
         if (wild3)
         {
-            wild3->updateProfiles();
+//            wild3->updateProfiles();
         }
         if (gamecube)
         {
@@ -288,13 +288,13 @@ void MainWindow::openStationary3()
 
 void MainWindow::openWild3()
 {
-    if (!wild3)
-    {
-        wild3 = new Wild3();
-        connect(wild3, &Wild3::alertProfiles, this, &MainWindow::updateProfiles);
-    }
-    wild3->show();
-    wild3->raise();
+//    if (!wild3)
+//    {
+//        wild3 = new Wild3();
+//        connect(wild3, &Wild3::alertProfiles, this, &MainWindow::updateProfiles);
+//    }
+//    wild3->show();
+//    wild3->raise();
 }
 
 void MainWindow::openGameCube()

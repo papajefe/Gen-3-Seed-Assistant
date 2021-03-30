@@ -21,16 +21,19 @@
 #include "Forms/Util/IVCalculator.hpp"
 #include "Forms/Controls/Filter.hpp"
 #include "Forms/Controls/CheckList.hpp"
-
+#include <Core/Enum/Lead.hpp>
 #include "ui_Stationary3.h"
 #include <Core/Enum/Game.hpp>
 #include <Core/Enum/Method.hpp>
 #include <Core/Parents/PersonalInfo.hpp>
 #include <Core/Util/IVChecker.hpp>
 #include <Core/Gen3/Generators/StationaryGenerator3.hpp>
+#include <Core/Gen3/Generators/WildGenerator3.hpp>
 #include <Core/Util/Translator.hpp>
 #include <Models/Gen3/StationaryModel3.hpp>
 #include <Models/Gen3/WildModel3.hpp>
+//#include <Forms/Gen3/Wild3.cpp>
+//#include <Forms/Gen3/Wild3.hpp>
 #include <QClipboard>
 #include <QCompleter>
 #include <QMessageBox>
@@ -59,18 +62,19 @@ Stationary3::~Stationary3()
 
 void Stationary3::setupModels()
 {
-    generatorModel = new StationaryGeneratorModel3(ui->tableViewGenerator);
+    stationaryModel = new StationaryGeneratorModel3(ui->tableViewGenerator);
+    wildModel = new WildGeneratorModel3(ui->tableViewGenerator);
     generatorMenu = new QMenu(ui->tableViewGenerator);
     generationIndexChanged(0);
     ui->comboBoxPokemon->setEditable(true);
     ui->comboBoxPokemon->completer()->setCompletionMode(QCompleter::PopupCompletion);
     connect(ui->comboBoxPokemon, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::pokemonIndexChanged);
     connect(ui->comboBoxAltForm, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::altformIndexChanged);
-    ui->tableViewGenerator->setModel(generatorModel);
+    ui->tableViewGenerator->setModel(stationaryModel);
     ui->textBoxGeneratorInitialFrame->setValues(InputType::Frame32Bit);
-    ui->comboBoxGeneratorMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4, Method::MethodH2 });
+    ui->comboBoxGeneratorMethod->setup({ Method::Method1, Method::Method1Reverse, Method::Method2, Method::Method4, Method::MethodH1, Method::MethodH2, Method::MethodH4});
     ui->comboBoxNatures->addItems(Translator::getNatures());
-    ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::UseDelay | Controls::DisableFilter);
+    ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::UseDelay | Controls::DisableFilter| Controls::FilterGame| Controls::FilterEncounter| Controls::FilterLocation| Controls::FilterPokemon| Controls::FilterLead);
     ui->comboBoxAltForm->setVisible(false);
     ui->labelAltForm->setVisible(false);
     QAction *outputTXTGenerator = generatorMenu->addAction(tr("Output Results to TXT"));
@@ -80,6 +84,7 @@ void Stationary3::setupModels()
 
     connect(ui->pushButtonGenerate, &QPushButton::clicked, this, &Stationary3::generate);
     connect(ui->CalculateIVButton, &QPushButton::clicked, this, &Stationary3::calculatestats);
+    connect(ui->comboBoxGeneratorMethod, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Stationary3::methodIndexChanged);
     connect(ui->tableViewGenerator, &QTableView::customContextMenuRequested, this, &Stationary3::tableViewGeneratorContextMenu);
 
     QSettings setting;
@@ -98,11 +103,28 @@ void Stationary3::altformIndexChanged(int index)
 
     }
 }
+void Stationary3::methodIndexChanged(int index)
+{
+    ui->filterGenerator->enableControls();
+    stationaryModel -> clearModel();
+    wildModel -> clearModel();
+    if (index <= 3){
+    ui->filterGenerator->disableControls(Controls::EncounterSlots | Controls::UseDelay | Controls::DisableFilter| Controls::FilterGame| Controls::FilterEncounter| Controls::FilterLocation| Controls::FilterPokemon| Controls::FilterLead);
+    ui->tableViewGenerator->setModel(stationaryModel);
+    connect(ui->pushButtonGenerate, &QPushButton::clicked, this, &Stationary3::generate);
+    }
+    else if (index >= 4)
+    {
+    ui->filterGenerator->disableControls(Controls::UseDelay | Controls::DisableFilter);
+    ui->tableViewGenerator->setModel(wildModel);
+    connect(ui->pushButtonGenerate, &QPushButton::clicked, this, &Stationary3::generateWild);
+   }
 
+}
 
 void Stationary3::generate()
 {
-    generatorModel->clearModel();
+    stationaryModel->clearModel();
     QVector<u32> seeds;
     QString userInput;
     userInput.clear();
@@ -146,16 +168,82 @@ void Stationary3::generate()
     StationaryGenerator3 generator(centerFrame, (plusMinus*2)+1, userTID, userSID, genderRatio, method, filter);
     generator.setOffset(offset);
     auto frames = generator.generate(seed);
-    generatorModel->addItems(frames);
+    stationaryModel->addItems(frames);
     }
 }
 
+void Stationary3::generateWild()
+{
+    wildModel->clearModel();
+    QVector<u32> seeds;
+    QString userInput;
+    userInput.clear();
+    seeds.clear();
+    userInput = ui->textUserSeed->toPlainText();
+    QStringList userSeeds = ui->textUserSeed->toPlainText().split("\n");
+    if (userInput.isEmpty())
+    {
+        for (u32 i = 0; i < 65536; i++)
+        {
+            seeds.append(i);
+        }
 
+    }
+    else  {
+        for (int i = 0; i < userSeeds.size(); i++)
+        {
+            seeds.append(userSeeds.at(i).toUInt(nullptr, 16));
+        }
 
+    }
+    for (int i = 0; i < seeds.size(); i++){
+    u32 seed = seeds.at(i);
+    u32 initialFrame = ui->textBoxGeneratorInitialFrame->getUInt();
+    u16 userTID = ui->filterGenerator->getTID();
+    u16 userSID = ui->filterGenerator->getSID();
+    u8 genderRatio = ui->filterGenerator->getGenderRatio();
+    auto method = static_cast<Method>(ui->comboBoxGeneratorMethod->getCurrentInt());
+    u32 offset = 0;
+    if (ui->filterGenerator->useDelay())
+    {
+        offset = ui->filterGenerator->getDelay();
+    }
+
+    FrameFilter filter(ui->filterGenerator->getGender(), ui->filterGenerator->getAbility(), ui->filterGenerator->getShiny(),
+                       ui->filterGenerator->getDisableFilters(), ui->filterGenerator->getMinIVs(), ui->filterGenerator->getMaxIVs(),
+                       ui->filterGenerator->getNatures(), ui->filterGenerator->getHiddenPowers(), ui->filterGenerator->getEncounterSlots());
+    int plusMinus = ui->spinBoxPlusMinus->value();
+    int centerFrame = initialFrame-((plusMinus));
+    WildGenerator3 generator(centerFrame, (plusMinus*2)+1, userTID, userSID, genderRatio, method, filter);
+    generator.setEncounter(static_cast<Encounter>(ui->filterGenerator->getEncounter()));
+    generator.setEncounterArea(ui->filterGenerator->getLocIndex());
+    generator.setOffset(offset);
+
+    if (ui->filterGenerator->getLeadText() == tr("Cute Charm"))
+    {
+        generator.setLead(static_cast<Lead>(ui->filterGenerator->getIntLead()));
+    }
+    else
+    {
+        if (ui->filterGenerator->getLeadIndex() == 0)
+        {
+            generator.setLead(Lead::None);
+        }
+        else
+        {
+            generator.setLead(Lead::Synchronize);
+            generator.setSynchNature(static_cast<u8>(ui->filterGenerator->getLeadIndex() - 1));
+        }
+    }
+
+    auto frames = generator.generate(seed);
+    wildModel->addItems(frames);
+}
+}
 
 void Stationary3::tableViewGeneratorContextMenu(QPoint pos)
 {
-    if (generatorModel->rowCount() > 0)
+    if (stationaryModel->rowCount() > 0)
     {
 
         generatorMenu->popup(ui->tableViewGenerator->viewport()->mapToGlobal(pos));

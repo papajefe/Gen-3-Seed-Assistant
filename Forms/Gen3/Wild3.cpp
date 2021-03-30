@@ -153,7 +153,8 @@ void Wild3::setupModels()
 void Wild3::updateLocationsGenerator()
 {
     auto encounter = static_cast<Encounter>(ui->comboBoxGeneratorEncounter->currentData().toInt());
-    encounterGenerator = Encounters3::getEncounters(encounter, currentProfile);
+    Game game = ui->filterGenerator->getGame();
+    encounterGenerator = Encounters3::getEncounters(encounter, game);
 
     QVector<u8> locs;
     for (const auto &area : encounterGenerator)
@@ -161,7 +162,7 @@ void Wild3::updateLocationsGenerator()
         locs.append(area.getLocation());
     }
 
-    QStringList locations = Translator::getLocations(locs, currentProfile.getVersion());
+    QStringList locations = Translator::getLocations(locs, game);
 
     ui->comboBoxGeneratorLocation->clear();
     ui->comboBoxGeneratorLocation->addItems(locations);
@@ -170,7 +171,8 @@ void Wild3::updateLocationsGenerator()
 void Wild3::updateLocationsSearcher()
 {
     auto encounter = static_cast<Encounter>(ui->comboBoxSearcherEncounter->currentData().toInt());
-    encounterSearcher = Encounters3::getEncounters(encounter, currentProfile);
+    Game game = ui->filterGenerator->getGame();
+    encounterSearcher = Encounters3::getEncounters(encounter, game);
 
     QVector<u8> locs;
     for (const auto &area : encounterSearcher)
@@ -178,7 +180,7 @@ void Wild3::updateLocationsSearcher()
         locs.append(area.getLocation());
     }
 
-    QStringList locations = Translator::getLocations(locs, currentProfile.getVersion());
+    QStringList locations = Translator::getLocations(locs, game);
 
     ui->comboBoxSearcherLocation->clear();
     ui->comboBoxSearcherLocation->addItems(locations);

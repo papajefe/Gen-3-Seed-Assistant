@@ -27,6 +27,7 @@
 
 class Frame;
 class StationaryGeneratorModel3;
+class WildGeneratorModel3;
 class PersonalInfo;
 
 namespace Ui
@@ -50,7 +51,8 @@ public:
 private:
     Ui::Stationary3 *ui;
     QVector<PersonalInfo> personalInfo;
-    StationaryGeneratorModel3 *generatorModel = nullptr;
+    StationaryGeneratorModel3 *stationaryModel = nullptr;
+    WildGeneratorModel3 *wildModel = nullptr;
     QMenu *generatorMenu = nullptr;
     PersonalInfo getPersonalInfo(const PersonalInfo &base);
     void setupModels();
@@ -60,9 +62,11 @@ private slots:
     void findIVs();
     void calculatestats();
     void generate();
+    void generateWild();
     void tableViewGeneratorContextMenu(QPoint pos);
     void pokemonIndexChanged(int index);
     void altformIndexChanged(int index);
+    void methodIndexChanged(int index);
     void generationIndexChanged(int index);
 
 };

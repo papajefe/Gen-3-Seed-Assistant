@@ -152,12 +152,12 @@ namespace Encounters3
         }
     }
 
-    QVector<EncounterArea3> getEncounters(Encounter encounter, const Profile3 &profile)
+    QVector<EncounterArea3> getEncounters(Encounter encounter, Game game)
     {
         QVector<EncounterArea3> encounterAreas;
         QVector<PersonalInfo> info = PersonalInfo::loadPersonal(3);
 
-        for (const auto &data : getData(profile.getVersion()))
+        for (const auto &data : getData(game))
         {
             for (const auto &encounterArea : getArea(data, info))
             {
