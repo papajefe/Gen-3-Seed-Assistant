@@ -32,8 +32,6 @@
 #include <Core/Util/Translator.hpp>
 #include <Models/Gen3/StationaryModel3.hpp>
 #include <Models/Gen3/WildModel3.hpp>
-//#include <Forms/Gen3/Wild3.cpp>
-//#include <Forms/Gen3/Wild3.hpp>
 #include <QClipboard>
 #include <QCompleter>
 #include <QMessageBox>
@@ -246,6 +244,8 @@ void Stationary3::tableViewGeneratorContextMenu(QPoint pos)
     if (stationaryModel->rowCount() > 0)
     {
 
+        generatorMenu->popup(ui->tableViewGenerator->viewport()->mapToGlobal(pos));
+    } else if (wildModel->rowCount() > 0){
         generatorMenu->popup(ui->tableViewGenerator->viewport()->mapToGlobal(pos));
     }
 }

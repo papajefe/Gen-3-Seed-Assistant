@@ -2,6 +2,7 @@ environment:
   matrix:
   - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
     QTPATH: C:\Qt\5.14\msvc2017_64
+    OpenSSL: C:\OpenSSL-v111-Win64\bin
     OS: win64
     VCVARSALLPATH: C:\"Program Files (x86)\Microsoft Visual Studio"\2019\Community\VC\Auxiliary\Build\vcvarsall.bat
     VCVARSALL: x64
@@ -35,29 +36,30 @@ build_script:
     
 after_build:
     # Windows
-    - cmd: md PokeFinder-windows
-    - cmd: move release\PokeFinder.exe PokeFinder-windows\PokeFinder.exe 
-    - cmd: windeployqt --release --no-translations --no-angle --no-plugins --no-opengl-sw PokeFinder-windows\PokeFinder.exe
-    - cmd: del PokeFinder-windows\vc_redist*.exe
-    - cmd: xcopy /I %QTPATH%\plugins\platforms\qwindows.dll PokeFinder-windows\platforms\
-    - cmd: xcopy /I %QTPATH%\plugins\styles\qwindowsvistastyle.dll PokeFinder-windows\styles\
-    - cmd: xcopy /I %OpenSSL%\libcrypto*.dll PokeFinder-windows\
-    - cmd: xcopy /I %OpenSSL%\libssl*.dll PokeFinder-windows\
-    - cmd: 7z a PokeFinder-%OS%.zip PokeFinder-windows\
-    - cmd: sha256sum PokeFinder-%OS%.zip > PokeFinder-%OS%.zip.sha256
+    - cmd: md Gen3Assistant-windows
+    - cmd: move release\PokeFinder.exe Gen3Assistant-windows\PokeFinder.exe 
+    - cmd: rename Gen3Assistant-windows\PokeFinder.exe Gen3Assistant-windows\Gen3SeedAssistant.exe 
+    - cmd: windeployqt --release --no-translations --no-angle --no-plugins --no-opengl-sw Gen3Assistant-windows\Gen3SeedAssistant.exe
+    - cmd: del Gen3Assistant-windows\vc_redist*.exe
+    - cmd: xcopy /I %QTPATH%\plugins\platforms\qwindows.dll Gen3Assistant-windows\platforms\
+    - cmd: xcopy /I %QTPATH%\plugins\styles\qwindowsvistastyle.dll Gen3Assistant-windows\styles\
+    - cmd: xcopy /I %OpenSSL%\libcrypto*.dll Gen3Assistant-windows\
+    - cmd: xcopy /I %OpenSSL%\libssl*.dll Gen3Assistant-windows\
+    - cmd: 7z a Gen3Assistant-%OS%.zip Gen3Assistant-windows\
+    - cmd: sha256sum Gen3Assistant-%OS%.zip > Gen3Assistant-%OS%.zip.sha256
     # Linux
-    - sh: zip -r PokeFinder-linux.zip PokeFinder
-    - sh: sha256sum PokeFinder-linux.zip > PokeFinder-linux.zip.sha256
+    - sh: zip -r Gen3Assistant-linux.zip Gen3Assistant
+    - sh: sha256sum Gen3Assistant-linux.zip > Gen3Assistant-linux.zip.sha256
     
 artifacts:
-- path: PokeFinder-%OS%.zip
-- path: PokeFinder-%OS%.zip.sha256
+- path: Gen3Assistant-%OS%.zip
+- path: Gen3Assistant-%OS%.zip.sha256
 
 deploy:
     provider: GitHub
     description: ''
     auth_token:
         secure: u3c5wUq11csZ77TpgKMImu9U+ibNiviMcEpTuQXmqp1YGSHA/+u5FhqZ3KRZBAQX
-    artifact: PokeFinder-%OS%.zip,PokeFinder-%OS%.zip.sha256
+    artifact: Gen3Assistant-%OS%.zip,Gen3Assistant-%OS%.zip.sha256
     on:
         APPVEYOR_REPO_TAG: true
