@@ -161,8 +161,13 @@ void Stationary3::generate()
                        ui->filterGenerator->getDisableFilters(), ui->filterGenerator->getMinIVs(), ui->filterGenerator->getMaxIVs(),
                        ui->filterGenerator->getNatures(), ui->filterGenerator->getHiddenPowers(), {});
     int plusMinus = ui->spinBoxPlusMinus->value();
+    int intFrame = initialFrame;
+    if (plusMinus > intFrame)
+    {
+        plusMinus = initialFrame - 1;
+        ui->spinBoxPlusMinus->setValue(plusMinus);
+    }
     int centerFrame = initialFrame-((plusMinus));
-
     StationaryGenerator3 generator(centerFrame, (plusMinus*2)+1, userTID, userSID, genderRatio, method, filter);
     generator.setOffset(offset);
     auto frames = generator.generate(seed);
@@ -211,6 +216,12 @@ void Stationary3::generateWild()
                        ui->filterGenerator->getDisableFilters(), ui->filterGenerator->getMinIVs(), ui->filterGenerator->getMaxIVs(),
                        ui->filterGenerator->getNatures(), ui->filterGenerator->getHiddenPowers(), ui->filterGenerator->getEncounterSlots());
     int plusMinus = ui->spinBoxPlusMinus->value();
+    int intFrame = initialFrame;
+    if (plusMinus > intFrame)
+    {
+        plusMinus = initialFrame - 1;
+        ui->spinBoxPlusMinus->setValue(plusMinus);
+    }
     int centerFrame = initialFrame-((plusMinus));
     WildGenerator3 generator(centerFrame, (plusMinus*2)+1, userTID, userSID, genderRatio, method, filter);
     generator.setEncounter(static_cast<Encounter>(ui->filterGenerator->getEncounter()));
