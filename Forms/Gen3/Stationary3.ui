@@ -164,12 +164,12 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>60</width>
+                <width>80</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximum">
-               <number>9999</number>
+               <number>9999999</number>
               </property>
               <property name="value">
                <number>10</number>
