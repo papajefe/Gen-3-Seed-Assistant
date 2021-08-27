@@ -18,7 +18,6 @@ environment:
 
 install:
     - git submodule update --init --recursive
-    - sh: bash .ci/install.sh
     
 before_build:
     - cmd: set PATH=%QTPATH%\bin;C:\Qt\Tools\QtCreator\bin;%PATH%
