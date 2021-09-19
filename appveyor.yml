@@ -30,7 +30,6 @@ before_build:
 build_script:
     - qmake PokeFinder.pro
     # Windows
-    - cmd: jom -j %NUMBER_OF_PROCESSORS%
     # Linux
     - sh: make -j $(nproc)
     
